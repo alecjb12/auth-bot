@@ -86,38 +86,53 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
     // encoding user inputed string via base64 because firebase doesnt allow some symbols
     var key = (Buffer.from(messageSplit[1]).toString('base64'));
     // getting current data in our databse.
-    ref.once("value")
-      .then(function(snap) {
-        var data = snap.val();
-        var keyFound = false;
-        // going through data
-        for (var i in data) {
-          // if current key in db matches with user inputed key.
-          if (i == key) {
-            keyFound = true;
-            // Key Found in database
-            var currentUser = (data[i]);
-            // No current user in database.
-            if (currentUser == "none") {
-              // Give the user the role.
-              const guildMember = message.member;
-              client.guilds.get(guildId).members.get(message.author.id).addRole(roleId);
-              //Update the database with the user id.
-              var userId = message.author.id;
-              update_array = {};
-              update_array[i] = userId;
-              // pushing to the database.
-              ref.update(update_array);
-              message.author.send({
-                embed: {
-                  color: 3447003,
-                  title: "SwipedIO Authentication",
-                  description: "You are now binded to: "+Buffer.from(i, 'base64') //decoding the key to return it to the user.
-                }
-              });
-              return;
-            } else {
-              // Value is not none for user in database.
+    // checking if the user is already a member
+    var user = (client.guilds.get(guildId).members.get(message.author.id));
+    if(user.roles.has(roleId)) {
+      message.author.send({
+        embed: {
+          color: 3447003,
+          title: "SwipedIO Authentication",
+          description: "You are already a member..."
+        }
+      });
+      return;
+    } else {
+      // User is not a member.
+      ref.once("value")
+        .then(function(snap) {
+          var data = snap.val();
+          var keyFound = false;
+          // going through data
+          for (var i in data) {
+            // if current key in db matches with user inputed key.
+            if (i == key) {
+              keyFound = true;
+              // Key Found in database
+              // Getting the user activated to the current key
+              var currentUser = (data[i]);
+              // if None was found under current user in database.
+              if (currentUser == "none") {
+                // Give the user the role.
+                var userId = message.author.id;
+                const guildMember = message.member;
+                client.guilds.get(guildId).members.get(message.author.id).addRole(roleId);
+                //Update the database with the user id.
+                var userId = message.author.id;
+                update_array = {};
+                update_array[i] = userId;
+                // pushing to the database.
+                ref.update(update_array);
+                message.author.send({
+                  embed: {
+                    color: 3447003,
+                    title: "SwipedIO Authentication",
+                    description: "You are now binded to: " + Buffer.from(i, 'base64') //decoding the key to return it to the user.
+                  }
+                });
+                return;
+              } else {
+                // Value is not none for user in database.
                 message.author.send({
                   embed: {
                     color: 3447003,
@@ -125,33 +140,35 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
                     description: "Key is already binded."
                   }
                 });
-              return;
+                return;
+              }
+
             }
           }
-        }
-        // key not found in database
-        if (!keyFound) {
-          // return message to user telling him to check key
-          message.author.send({
-            embed: {
-              color: 3447003,
-              title: "SwipedIO Authentication",
-              description: "Key not found..."
-            }
-          });
-          return;
-        }
-      });
-    } catch {
-      message.author.send({
-        embed: {
-          color: 3447003,
-          title: "SwipedIO Authentication",
-          description: "Unexcpected error occured... Please contact admin or try typing !help"
-        }
-      });
-      return;
-    }
+          // key not found in database
+          if (!keyFound) {
+            // return message to user telling him to check key
+            message.author.send({
+              embed: {
+                color: 3447003,
+                title: "SwipedIO Authentication",
+                description: "Key not found..."
+              }
+            });
+            return;
+          }
+        });
+      }
+  } catch {
+    message.author.send({
+      embed: {
+        color: 3447003,
+        title: "SwipedIO Authentication",
+        description: "Unexcpected error occured... Please contact admin or try typing !help"
+      }
+    });
+    return;
+  }
 }
 
 function deactivateUser(messageSplit, message, ref, guildId, roleId) {
@@ -199,16 +216,16 @@ function deactivateUser(messageSplit, message, ref, guildId, roleId) {
           return;
         }
       });
-    } catch {
-      message.author.send({
-        embed: {
-          color: 3447003,
-          title: "SwipedIO Authentication",
-          description: "Unexcpected error occured... Please contact admin or try typing !help"
-        }
-      });
-      return;
-    }
+  } catch {
+    message.author.send({
+      embed: {
+        color: 3447003,
+        title: "SwipedIO Authentication",
+        description: "Unexcpected error occured... Please contact admin or try typing !help"
+      }
+    });
+    return;
+  }
 }
 
 function checkKey(messageSplit, message, ref) {
@@ -230,7 +247,7 @@ function checkKey(messageSplit, message, ref) {
               embed: {
                 color: 3447003,
                 title: "SwipedIO Authentication",
-                description: "Your key is: "+Buffer.from(i, 'base64') //decoding key to return to user.
+                description: "Your key is: " + Buffer.from(i, 'base64') //decoding key to return to user.
               }
             });
             return;
@@ -249,15 +266,15 @@ function checkKey(messageSplit, message, ref) {
           return;
         }
       });
-    } catch {
-      message.author.send({
-        embed: {
-          color: 3447003,
-          title: "SwipedIO Authentication",
-          description: "Unexcpected error occured... Please contact admin or try typing !help"
-        }
-      });
-      return;
-    }
+  } catch {
+    message.author.send({
+      embed: {
+        color: 3447003,
+        title: "SwipedIO Authentication",
+        description: "Unexcpected error occured... Please contact admin or try typing !help"
+      }
+    });
+    return;
+  }
 }
 settings();
