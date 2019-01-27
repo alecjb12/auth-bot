@@ -83,7 +83,8 @@ function help(messageSplit, message) {
 function activateUser(messageSplit, message, ref, guildId, roleId) {
   console.log("User Performed: " + messageSplit[0]);
   try {
-    var key = messageSplit[1];
+    // encoding user inputed string via base64 because firebase doesnt allow some symbols
+    var key = (Buffer.from(messageSplit[1]).toString('base64'));
     // getting current data in our databse.
     ref.once("value")
       .then(function(snap) {
@@ -111,12 +112,19 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
                 embed: {
                   color: 3447003,
                   title: "SwipedIO Authentication",
-                  description: "You are now binded to: "+i
+                  description: "You are now binded to: "+Buffer.from(i, 'base64') //decoding the key to return it to the user.
                 }
               });
               return;
             } else {
-              // return msg to user that key found but is already bound.
+              // Value is not none for user in database.
+                message.author.send({
+                  embed: {
+                    color: 3447003,
+                    title: "SwipedIO Authentication",
+                    description: "Key is already binded."
+                  }
+                });
               return;
             }
           }
@@ -222,7 +230,7 @@ function checkKey(messageSplit, message, ref) {
               embed: {
                 color: 3447003,
                 title: "SwipedIO Authentication",
-                description: "Your key is: "+i
+                description: "Your key is: "+Buffer.from(i, 'base64') //decoding key to return to user.
               }
             });
             return;
