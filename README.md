@@ -1,4 +1,5 @@
 # DiscordAuth
+#NOTE WHEN ADDING KEYS IN DATABASE ENCODE THEM VIA BASE64 (https://www.base64encode.org/)
 
 #1. Create a Dicord Bot on the Discord website. Get the token of the bot and write it under settings.json.
 
