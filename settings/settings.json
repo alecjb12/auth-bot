@@ -1,0 +1,9 @@
+{
+  "token": "discord bot token",
+  "guildId": "server",
+  "roleId": "",
+  "apiKey": "",
+  "authDomain": "",
+  "databaseURL": "",
+  "storageBucket": ""
+}
