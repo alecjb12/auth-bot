@@ -151,7 +151,7 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
             message.author.send({
               embed: {
                 color: 3447003,
-                title: "SwipedIO Authentication",
+                title: "Authentication Bot",
                 description: "Key not found..."
               }
             });
@@ -196,7 +196,7 @@ function deactivateUser(messageSplit, message, ref, guildId, roleId) {
             message.author.send({
               embed: {
                 color: 3447003,
-                title: "SwipedIO Authentication",
+                title: "Authentication Bot",
                 description: "You are now unbinded."
               }
             });
@@ -209,7 +209,7 @@ function deactivateUser(messageSplit, message, ref, guildId, roleId) {
           message.author.send({
             embed: {
               color: 3447003,
-              title: "SwipedIO Authentication",
+              title: "Authentication Bot",
               description: "You are not bound to a key."
             }
           });
