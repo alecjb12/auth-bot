@@ -73,7 +73,7 @@ function help(messageSplit, message) {
   message.author.send({
     embed: {
       color: 3447003,
-      title: "SwipedIO Authentication",
+      title: "Authentication Bot",
       description: "Use one of the following commands\n !activate (password) \n !deactivate \n !key (To show which key you're bound to) \n Please note do not enclose the password with ()"
     }
   });
@@ -92,7 +92,7 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
       message.author.send({
         embed: {
           color: 3447003,
-          title: "SwipedIO Authentication",
+          title: "Authentication Bot",
           description: "You are already a member..."
         }
       });
@@ -126,7 +126,7 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
                 message.author.send({
                   embed: {
                     color: 3447003,
-                    title: "SwipedIO Authentication",
+                    title: "Authentication Bot",
                     description: "You are now binded to: " + Buffer.from(i, 'base64') //decoding the key to return it to the user.
                   }
                 });
@@ -136,7 +136,7 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
                 message.author.send({
                   embed: {
                     color: 3447003,
-                    title: "SwipedIO Authentication",
+                    title: "Authentication Bot",
                     description: "Key is already binded."
                   }
                 });
@@ -163,7 +163,7 @@ function activateUser(messageSplit, message, ref, guildId, roleId) {
     message.author.send({
       embed: {
         color: 3447003,
-        title: "SwipedIO Authentication",
+        title: "Authentication Bot",
         description: "Unexcpected error occured... Please contact admin or try typing !help"
       }
     });
@@ -220,7 +220,7 @@ function deactivateUser(messageSplit, message, ref, guildId, roleId) {
     message.author.send({
       embed: {
         color: 3447003,
-        title: "SwipedIO Authentication",
+        title: "Authentication Bot",
         description: "Unexcpected error occured... Please contact admin or try typing !help"
       }
     });
@@ -246,7 +246,7 @@ function checkKey(messageSplit, message, ref) {
             message.author.send({
               embed: {
                 color: 3447003,
-                title: "SwipedIO Authentication",
+                title: "Authentication Bot",
                 description: "Your key is: " + Buffer.from(i, 'base64') //decoding key to return to user.
               }
             });
@@ -259,7 +259,7 @@ function checkKey(messageSplit, message, ref) {
           message.author.send({
             embed: {
               color: 3447003,
-              title: "SwipedIO Authentication",
+              title: "Authentication Bot",
               description: "You are not bound to a key."
             }
           });
@@ -270,7 +270,7 @@ function checkKey(messageSplit, message, ref) {
     message.author.send({
       embed: {
         color: 3447003,
-        title: "SwipedIO Authentication",
+        title: "Authentication Bot",
         description: "Unexcpected error occured... Please contact admin or try typing !help"
       }
     });
